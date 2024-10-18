@@ -92,7 +92,7 @@
             const data = { fullName, re, photoData, timestamp, location };
 
             try {
-                const response = await fetch('https://docs.google.com/spreadsheets/d/1-3JRPTXsyfGFIdPHO_DsD-mIyjUTh7PGBbjIejLjT5M/edit?usp=sharing', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbyNyeU9Ye4swR3zI5tsLlr5C-wRph3tXeCSFssTDF9tfvbBfInrjKxZQGq1zqjrJu0h/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
