@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Folha de Ponto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, button {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        #photo {
+            width: 320px;
+            height: 240px;
+            border: 1px solid #ccc;
+        }
+        #timestamp {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Folha de Ponto</h1>
+    <form id="punchForm">
+        <input type="text" id="fullName" placeholder="Nome Completo" required>
+        <input type="text" id="re" placeholder="RE (Registro de Empregado)" required>
+        <video id="video" width="320" height="240" style="display:none;"></video>
+        <canvas id="photo" width="320" height="240"></canvas>
+        <button type="button" id="captureBtn">Capturar Foto</button>
+        <button type="submit">Registrar Ponto</button>
+    </form>
+    <div id="timestamp"></div>
+
+    <script>
+        const form = document.getElementById('punchForm');
+        const video = document.getElementById('video');
+        const photo = document.getElementById('photo');
+        const captureBtn = document.getElementById('captureBtn');
+        const timestampDiv = document.getElementById('timestamp');
+
+        // Inicializar a câmera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(err => console.error('Erro ao acessar a câmera:', err));
+
+        // Capturar foto
+        captureBtn.addEventListener('click', () => {
+            const context = photo.getContext('2d');
+            context.drawImage(video, 0, 0, 320, 240);
+        });
+
+        // Atualizar carimbo de data e hora
+        function updateTimestamp() {
+            const now = new Date();
+            timestampDiv.textContent = `Data e Hora: ${now.toLocaleString()}`;
+        }
+        setInterval(updateTimestamp, 1000);
+
+        // Enviar dados do formulário
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const re = document.getElementById('re').value;
+            const photoData = photo.toDataURL('image/jpeg');
+            const timestamp = new Date().toISOString();
+
+            // Obter localização
+            let location = 'Não disponível';
+            try {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                });
+                location = `${position.coords.latitude}, ${position.coords.longitude}`;
+            } catch (err) {
+                console.error('Erro ao obter localização:', err);
+            }
+
+            // Aqui você deve implementar o envio dos dados para o seu servidor
+            // Por exemplo, usando fetch() para enviar uma requisição POST
+            console.log('Dados a serem enviados:', { fullName, re, photoData, timestamp, location });
+            alert('Ponto registrado com sucesso!');
+
+            // Limpar o formulário
+            form.reset();
+            const context = photo.getContext('2d');
+            context.clearRect(0, 0, photo.width, photo.height);
+        });
+    </script>
+</body>
+</html>
