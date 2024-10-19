@@ -81,6 +81,20 @@
         .signature a:hover {
             text-decoration: underline;
         }
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+        .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +103,14 @@
             <img src="https://raw.githubusercontent.com/Previni/Formulario-Pedido/main/logo%20previni.png" alt="Logo da Empresa">
         </div>
         <form id="punchForm">
+            <div class="form-group radio-group">
+                <label>
+                    <input type="radio" name="punchType" value="entrada" required> Entrada
+                </label>
+                <label>
+                    <input type="radio" name="punchType" value="saida" required> Saída
+                </label>
+            </div>
             <div class="form-group">
                 <label for="fullName">Nome Completo:</label>
                 <input type="text" id="fullName" name="fullName" required>
@@ -155,9 +177,10 @@
             const re = document.getElementById('re').value;
             const photoData = photo.toDataURL('image/jpeg');
             const timestamp = new Date().toISOString();
+            const punchType = document.querySelector('input[name="punchType"]:checked').value;
 
-            if (!fullName || !re || photoData === photo.toDataURL()) {
-                alert('Por favor, preencha todos os campos e capture uma foto.');
+            if (!fullName || !re || photoData === photo.toDataURL() || !punchType) {
+                alert('Por favor, preencha todos os campos, selecione o tipo de registro e capture uma foto.');
                 isSubmitting = false;
                 return;
             }
@@ -172,7 +195,7 @@
                 console.error('Erro ao obter localização:', err);
             }
 
-            const data = { fullName, re, photoData, timestamp, location };
+            const data = { fullName, re, photoData, timestamp, location, punchType };
 
             try {
                 const response = await fetch('https://script.google.com/macros/s/AKfycbyNyeU9Ye4swR3zI5tsLlr5C-wRph3tXeCSFssTDF9tfvbBfInrjKxZQGq1zqjrJu0h/exec', {
