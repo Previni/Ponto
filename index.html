@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <link rel="icon" type="image/png" href="favicon previni.png">
     <meta charset="UTF-8">
@@ -49,11 +50,18 @@
             background-color: #45a049;
         }
         #photo {
-            width: 100%;
-            height: 240px;
+            width: 240px; /* Nova largura */
+            height: 320px; /* Nova altura */
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-bottom: 10px;
+        }
+        #video {
+            width: 240px; /* Também ajustado para corresponder à nova relação de aspecto */
+            height: 320px;
+            display: none;
+        }
+        #captureBtn {
+            margin-top: 10px;
         }
         #timestamp {
             font-weight: bold;
@@ -85,7 +93,7 @@
 <body>
     <div class="form-container">
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/Previni/Formulario-Pedido/main/logo%20previni.png" alt="Logo da Empresa">
+            <img src="https://raw.githubusercontent.com/Previni/Ponto/main/logo%previni.png" alt="Logo da Empresa">
         </div>
         <form id="punchForm">
             <div class="form-group">
@@ -98,8 +106,8 @@
             </div>
             <div class="form-group">
                 <label for="photo">Foto:</label>
-                <video id="video" width="100%" height="240" style="display:none;"></video>
-                <canvas id="photo" width="320" height="240"></canvas>
+                <video id="video" width="240" height="320" style="display:none;"></video>
+                <canvas id="photo" width="240" height="320"></canvas>
                 <button type="button" id="captureBtn">Capturar Foto</button>
             </div>
             <div class="form-group">
@@ -107,7 +115,8 @@
             </div>
         </form>
         <div id="timestamp"></div>
-    </div><script>
+    </div>
+<script>
     const form = document.getElementById('punchForm');
     const video = document.getElementById('video');
     const photo = document.getElementById('photo');
@@ -125,7 +134,7 @@
     // Capturar foto
     captureBtn.addEventListener('click', () => {
         const context = photo.getContext('2d');
-        context.drawImage(video, 0, 0, 320, 240);
+        context.drawImage(video, 0, 0, 240, 320);
     });
 
     // Atualizar carimbo de data e hora
@@ -154,7 +163,7 @@
         const timestamp = new Date().toISOString();
 
         if (!fullName || !re || photoData === photo.toDataURL()) {
-            alert('Por favor, preencha todos os campos e capture uma foto.');
+            alert('Por favor, preencha todos os campos e capture uma foto!');
             isSubmitting = false;
             return;
         }
@@ -197,7 +206,7 @@
 </script>
 
 <div class="signature">
-    Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/" target="_blank">Gabriel Aparecido - Outubro/2024</a>
+    Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/" >Gabriel Wandele - Outubro/2024</a>
 </div>
 </body>
 </html>
