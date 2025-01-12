@@ -96,6 +96,13 @@
         .signature a:hover {
             text-decoration: underline;
         }
+        .lgpd-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px; /* Diminui o tamanho do texto */
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -119,11 +126,11 @@
                 <button type="button" id="captureBtn">Capturar Foto</button>
             </div>
             <div class="form-group">
-                <input type="checkbox" id="lgpd" required disabled checked>
-                <label for="lgpd">Aceito os Termos da LGPD (Lei Geral de Proteção de Dados)</label>
-            </div>
-            <div class="form-group">
                 <button type="submit" disabled id="submitBtn">Registrar Ponto</button>
+            </div>
+            <div class="lgpd-container">
+                <input type="checkbox" id="lgpd" required disabled checked>
+                <label for="lgpd">Aceito os Termos da LGPD</label>
             </div>
         </form>
         <div id="timestamp"></div>
