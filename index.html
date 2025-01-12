@@ -24,7 +24,7 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* Centraliza os elementos */
             margin-bottom: 15px;
         }
         label {
@@ -49,14 +49,13 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            width: 240px;
+            width: 100%; /* Define a largura total para botão de formulário */
         }
         button:hover {
             background-color: #45a049;
         }
         #photo,
-        #video,
-        #captureBtn {
+        #video {
             width: 240px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -66,6 +65,7 @@
         }
         #captureBtn {
             margin-top: 10px;
+            width: 240px; /* Largura específica do botão */
         }
         #timestamp {
             font-weight: bold;
@@ -76,7 +76,7 @@
             margin-bottom: 20px;
         }
         .logo img {
-            max-width: 70%; /* Ajusta o logo para 70% de seu tamanho original */
+            max-width: 30%; /* Ajusta o logo para 30% de seu tamanho original */
             height: auto;
         }
         .signature {
