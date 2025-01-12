@@ -1,241 +1,82 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <link rel="icon" type="image/png" href="favicon previni.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Folha de Ponto</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Montserrat', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        .form-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            align-self: flex-start;
-        }
-        input, button {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: 'Montserrat', Arial, sans-serif;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        #photo,
-        #video {
-            width: 240px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        #video {
-            display: none;
-        }
-        #captureBtn {
-            margin-top: 10px;
-            width: 100%;
-        }
-        #timestamp {
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo img {
-            max-width: 30%;
-            height: auto;
-        }
-        .signature {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-        }
-        .signature a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        .signature a:hover {
-            text-decoration: underline;
-        }
-        .lgpd-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            margin-top: 5px;
-        }
-        .lgpd-container input {
-            margin-right: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <div class="logo">
-            <img src="https://raw.githubusercontent.com/Previni/Ponto/main/logoprevini.png" alt="Logo da Empresa">
-        </div>
-        <form id="punchForm">
-            <div class="form-group">
-                <label for="fullName">Nome Completo:</label>
-                <input type="text" id="fullName" name="fullName" required>
-            </div>
-            <div class="form-group">
-                <label for="re">RE (Registro de Empregado):</label>
-                <input type="text" id="re" name="re" required>
-            </div>
-            <div class="form-group">
-                <label for="photo">Foto:</label>
-                <video id="video" width="240" height="320" style="display:none;"></video>
-                <canvas id="photo" width="240" height="320"></canvas>
-                <button type="button" id="captureBtn">Capturar Foto</button>
-            </div>
-            <div class="form-group">
-                <button type="submit" disabled id="submitBtn">Registrar Ponto</button>
-            </div>
-            <div class="lgpd-container">
-                <input type="checkbox" id="lgpd" required disabled checked>
-                <label for="lgpd">Aceito os Termos da LGPD</label>
-            </div>
-        </form>
-        <div id="timestamp"></div>
-    </div>
-<script>
-    const form = document.getElementById('punchForm');
-    const video = document.getElementById('video');
-    const photo = document.getElementById('photo');
-    const captureBtn = document.getElementById('captureBtn');
-    const timestampDiv = document.getElementById('timestamp');
-    const submitBtn = document.getElementById('submitBtn');
+<!DOCTYPE html><html lang="pt-BR"> <head> <link rel="icon" type="image/png" href="favicon previni.png"> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Sistema de Folha de Ponto</title> <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"> <style> body { font-family: 'Montserrat', Arial, sans-serif; margin: 0; padding: 20px; background-color: #f0f0f0; } .form-container { background-color: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); } .form-group { display: flex; flex-direction: column; align-items: center; /* Centraliza os elementos */ margin-bottom: 15px; } label { display: block; margin-bottom: 5px; font-weight: bold; align-self: flex-start; } input, button { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Montserrat', Arial, sans-serif; } button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; /* Define a largura total para todos botões */ } button:hover { background-color: #45a049; } #photo, #video { width: 240px; border: 1px solid #ddd; border-radius: 4px; } #video { display: none; } #captureBtn { margin-top: 10px; width: 100%; /* Garante que o botão de captura tenha largura total */ } #timestamp { font-weight: bold; margin-top: 20px; } .logo { text-align: center; margin-bottom: 20px; } .logo img { max-width: 30%; /* Ajusta o logo para 30% de seu tamanho original */ height: auto; } .signature { text-align: center; margin-top: 20px; font-size: 12px; color: #666; } .signature a { color: #4CAF50; text-decoration: none; } .signature a:hover { text-decoration: underline; } </style> </head> <body> <div class="form-container"> <div class="logo"> <img src="https://raw.githubusercontent.com/Previni/Ponto/main/logoprevini.png" alt="Logo da Empresa"> </div> <form id="punchForm"> <div class="form-group"> <label for="fullName">Nome Completo:</label> <input type="text" id="fullName" name="fullName" required> </div> <div class="form-group"> <label for="re">RE (Registro de Empregado):</label> <input type="text" id="re" name="re" required> </div> <div class="form-group"> <label for="photo">Foto:</label> <video id="video" width="240" height="320" style="display:none;"></video> <canvas id="photo" width="240" height="320"></canvas> <button type="button" id="captureBtn">Capturar Foto</button> </div> <div class="form-group"> <button type="submit">Registrar Ponto</button> </div> </form> <div id="timestamp"></div> </div> <script> const form = document.getElementById('punchForm'); const video = document.getElementById('video'); const photo = document.getElementById('photo'); const captureBtn = document.getElementById('captureBtn'); const timestampDiv = document.getElementById('timestamp');
+// Inicializar a câmera
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(err => console.error('Erro ao acessar a câmera:', err));
 
-    // Inicializar a câmera
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
-            video.play();
-        })
-        .catch(err => console.error('Erro ao acessar a câmera:', err));
+// Capturar foto
+captureBtn.addEventListener('click', () => {
+    const context = photo.getContext('2d');
+    context.drawImage(video, 0, 0, 240, 320);
+});
 
-    // Capturar foto
-    captureBtn.addEventListener('click', () => {
-        const context = photo.getContext('2d');
-        context.drawImage(video, 0, 0, 240, 320);
-    });
+// Atualizar carimbo de data e hora
+function updateTimestamp() {
+    const now = new Date();
+    timestampDiv.textContent = `Data e Hora: ${now.toLocaleString()}`;
+}
+setInterval(updateTimestamp, 1000);
 
-    // Atualizar carimbo de data e hora
-    function updateTimestamp() {
-        const now = new Date();
-        timestampDiv.textContent = `Data e Hora: ${now.toLocaleString()}`;
+// Variável para controlar envios múltiplos
+let isSubmitting = false;
+
+// Enviar dados do formulário
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (isSubmitting) {
+        return; // Evita envios múltiplos
     }
-    setInterval(updateTimestamp, 1000);
 
-    // Habilitar botão de submissão ao capturar foto
-    captureBtn.addEventListener('click', () => {
-        submitBtn.disabled = false;
-    });
+    isSubmitting = true;
 
-    // Variável para controlar envios múltiplos
-    let isSubmitting = false;
+    const fullName = document.getElementById('fullName').value;
+    const re = document.getElementById('re').value;
+    const photoData = photo.toDataURL('image/jpeg');
+    const timestamp = new Date().toISOString();
 
-    // Enviar dados do formulário
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    if (!fullName || !re || photoData === photo.toDataURL()) {
+        alert('Por favor, preencha todos os campos e capture uma foto!');
+        isSubmitting = false;
+        return;
+    }
 
-        if (isSubmitting) {
-            return; // Evita envios múltiplos
-        }
+    let location = 'Não disponível';
+    try {
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        location = `${position.coords.latitude}, ${position.coords.longitude}`;
+    } catch (err) {
+        console.error('Erro ao obter localização:', err);
+    }
 
-        isSubmitting = true;
+    const data = { fullName, re, photoData, timestamp, location };
 
-        const fullName = document.getElementById('fullName').value;
-        const re = document.getElementById('re').value;
-        const photoData = photo.toDataURL('image/jpeg');
-        const timestamp = new Date().toISOString();
-
-        if (!fullName || !re || photoData === photo.toDataURL()) {
-            alert('Por favor, preencha todos os campos e capture uma foto!');
-            isSubmitting = false;
-            return;
-        }
-
-        let location = 'Não disponível';
-        try {
-            const position = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
-            });
-            location = `${position.coords.latitude}, ${position.coords.longitude}`;
-        } catch (err) {
-            console.error('Erro ao obter localização:', err);
-        }
-
-        const data = { fullName, re, photoData, timestamp, location };
-
-        try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbyNyeU9Ye4swR3zI5tsLlr5C-wRph3tXeCSFssTDF9tfvbBfInrjKxZQGq1zqjrJu0h/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-            
-            // Como estamos usando 'no-cors', não podemos ler a resposta diretamente
-            // Assumimos que o envio foi bem-sucedido se não houver erro
-            alert('Ponto registrado com sucesso!');
-            form.reset();
-            const context = photo.getContext('2d');
-            context.clearRect(0, 0, photo.width, photo.height);
-            submitBtn.disabled = true; // Desabilitar botão após submit
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao enviar os dados. Por favor, tente novamente.');
-        } finally {
-            isSubmitting = false; // Reset após envio, seja bem-sucedido ou não
-        }
-    });
-</script>
-
-<div class="signature">
-    Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/">Gabriel Wandele - Outubro/2024</a>
-</div>
-</body>
-</html>
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyNyeU9Ye4swR3zI5tsLlr5C-wRph3tXeCSFssTDF9tfvbBfInrjKxZQGq1zqjrJu0h/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        // Como estamos usando 'no-cors', não podemos ler a resposta diretamente
+        // Assumimos que o envio foi bem-sucedido se não houver erro
+        alert('Ponto registrado com sucesso!');
+        form.reset();
+        const context = photo.getContext('2d');
+        context.clearRect(0, 0, photo.width, photo.height);
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao enviar os dados. Por favor, tente novamente.');
+    } finally {
+        isSubmitting = false; // Reset após envio, seja bem-sucedido ou não
+    }
+});
+</script><div class="signature"> Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/">Gabriel Wandele - Outubro/2024</a> </div> </body> </html>
