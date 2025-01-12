@@ -22,12 +22,16 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 15px;
         }
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            align-self: flex-start;
         }
         input, button {
             width: 100%;
@@ -45,19 +49,19 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            width: 240px;
         }
         button:hover {
             background-color: #45a049;
         }
-        #photo {
-            width: 240px; /* Nova largura */
-            height: 320px; /* Nova altura */
+        #photo,
+        #video,
+        #captureBtn {
+            width: 240px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
         #video {
-            width: 240px; /* Também ajustado para corresponder à nova relação de aspecto */
-            height: 320px;
             display: none;
         }
         #captureBtn {
@@ -72,7 +76,7 @@
             margin-bottom: 20px;
         }
         .logo img {
-            max-width: 200px;
+            max-width: 70%; /* Ajusta o logo para 70% de seu tamanho original */
             height: auto;
         }
         .signature {
@@ -206,7 +210,7 @@
 </script>
 
 <div class="signature">
-    Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/" >Gabriel Wandele - Outubro/2024</a>
+    Feito por <a href="https://www.linkedin.com/in/gabriel-aparecido06/">Gabriel Wandele - Outubro/2024</a>
 </div>
 </body>
 </html>
